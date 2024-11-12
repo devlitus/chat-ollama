@@ -1,4 +1,3 @@
-// utils/imagePreview.ts
 export class ImagePreviewManager {
   private imagePreviewContainer: HTMLDivElement | null = null;
   private formContainer: Element | null;

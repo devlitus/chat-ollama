@@ -1,4 +1,3 @@
-// chatFormHandler.ts
 import { getChatMessage } from "./getChatMessage";
 import { getVisionResponse } from "./visionHandler";
 import { ChatHandler } from "@handlers/chatHandler";

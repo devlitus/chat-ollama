@@ -18,9 +18,7 @@ import IconMoon from "./IconMoon.astro";
         title="Toggle theme"
       >
         <span class="sr-only">Toggle theme</span>
-        <!-- Sol icono para modo claro -->
         <IconSun />
-        <!-- Luna icono para modo oscuro -->
         <IconMoon />
       </button>
       <button
@@ -36,12 +34,10 @@ import IconMoon from "./IconMoon.astro";
 </header>
 
 <script>
-  // Theme toggle functionality
   const themeToggle = document.getElementById("themeToggle");
   const lightIcon = document.getElementById("lightIcon");
   const darkIcon = document.getElementById("darkIcon");
 
-  // Check for saved theme preference, otherwise use system preference
   const theme = (() => {
     if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
       return localStorage.getItem("theme");
@@ -51,7 +47,6 @@ import IconMoon from "./IconMoon.astro";
       : "light";
   })();
 
-  // Initial theme setup
   if (theme === "light") {
     document.documentElement.classList.remove("dark");
     lightIcon?.classList.add("hidden");
@@ -64,11 +59,9 @@ import IconMoon from "./IconMoon.astro";
 
   localStorage.setItem("theme", theme ?? "dark");
 
-  // Theme toggle handler
   themeToggle?.addEventListener("click", () => {
     const isDark = document.documentElement.classList.toggle("dark");
 
-    // Toggle icons
     if (isDark) {
       lightIcon?.classList.remove("hidden");
       darkIcon?.classList.add("hidden");
@@ -80,7 +73,6 @@ import IconMoon from "./IconMoon.astro";
     }
   });
 
-  // Clear chat functionality
   const clearButton = document.getElementById("clearChat");
   const chatContainer = document.querySelector(".chat-messages");
 

@@ -1,18 +1,6 @@
+import type { ChatMessage, ChatResponse } from "../types/chat";
 import ollama from "ollama";
 
-// Define the response type
-export interface ChatResponse {
-  message: string;
-  error?: string;
-}
-
-// Define message type for better type safety
-export interface ChatMessage {
-  content: string;
-  role: "assistant" | "user";
-}
-
-// Store chat history
 let chatHistory: ChatMessage[] = [];
 
 export const getChatMessage = async (
@@ -20,7 +8,6 @@ export const getChatMessage = async (
   onChunk: (chunk: string) => void
 ): Promise<ChatResponse> => {
   try {
-    // Add user message to history
     chatHistory.push({
       content: userMessage,
       role: "user",

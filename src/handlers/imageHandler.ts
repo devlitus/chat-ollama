@@ -1,4 +1,3 @@
-// handlers/imageHandler.ts
 import { ImagePreviewManager } from "../utils/imagePreview";
 
 export class ImageHandler {

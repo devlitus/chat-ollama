@@ -1,4 +1,3 @@
-// handlers/chatHandler.ts
 import { createMessageContainer, createErrorMessage } from "../utils/uiUtils";
 
 export class ChatHandler {

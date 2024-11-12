@@ -1,4 +1,3 @@
-// utils/uiUtils.ts
 export function createMessageContainer(isUser: boolean, imageBase64?: string) {
   const div = document.createElement("div");
   div.className = "flex items-start space-x-2 mb-4";
