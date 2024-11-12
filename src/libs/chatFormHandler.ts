@@ -12,6 +12,7 @@ export function initializeChatForm() {
   const fileInput = document.querySelector(
     'input[name="image"]'
   ) as HTMLInputElement;
+  const sendButton = document.querySelector("#sendButton") as HTMLButtonElement;
 
   const chatHandler = new ChatHandler(chatContainer);
   const imageHandler = new ImageHandler(fileInput, (error) =>
@@ -23,6 +24,8 @@ export function initializeChatForm() {
 
     const userMessage = input.value.trim();
     if (!userMessage) return;
+
+    sendButton.disabled = true;
 
     chatHandler.resetResponseDiv();
     imageHandler.removePreview();
@@ -58,6 +61,8 @@ export function initializeChatForm() {
       chatHandler.addErrorMessage(
         "An error occurred while processing your message or image."
       );
+    } finally {
+      sendButton.disabled = false;
     }
   };
 
