@@ -1,54 +1,163 @@
-# Astro Starter Kit: Basics
+# Chat Bot Project
 
-```sh
-npm create astro@latest -- --template basics
+A modern chat interface built with Astro, TypeScript, and Ollama integration. This project features a responsive UI with dark/light theme support, image upload capabilities, and both text and vision-based AI interactions.
+
+## 🚀 Features
+
+- **Real-time Chat Interface**: Smooth, responsive chat experience
+- **Dark/Light Theme**: Automatic theme detection with manual toggle
+- **Image Support**: Upload and process images in conversations
+- **AI Integration**:
+  - Text-based chat using `llama3.2`
+  - Vision capabilities using `llama3.2-vision`
+- **Responsive Design**: Works seamlessly across different screen sizes
+- **TypeScript Support**: Full type safety throughout the application
+- **Stream Responses**: Real-time streaming of AI responses
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Astro](https://astro.build)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com)
+- **AI Integration**: [Ollama](https://ollama.ai)
+- **Testing**: Vitest
+- **Language**: TypeScript
+
+## 📦 Project Structure
+
 ```
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
 /
-├── public/
-│   └── favicon.svg
 ├── src/
-│   ├── components/
-│   │   └── Card.astro
+│   ├── components/         # UI Components
+│   │   ├── ChatForm.astro
+│   │   ├── ChatHeader.astro
+│   │   ├── ChatMessage.astro
+│   │   └── Icons/
+│   ├── handlers/          # Business Logic
+│   │   ├── chatHandler.ts
+│   │   ├── imageHandler.ts
+│   │   └── visionHandler.ts
 │   ├── layouts/
 │   │   └── Layout.astro
+│   ├── libs/             # Utilities and Helpers
+│   │   ├── chatFormHandler.ts
+│   │   └── getChatMessage.ts
+│   ├── types/           # TypeScript Definitions
+│   │   └── chat.ts
 │   └── pages/
 │       └── index.astro
-└── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## 🚀 Getting Started
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+1. **Clone the repository**
 
-Any static assets, like images, can be placed in the `public/` directory.
+```bash
+git clone <repository-url>
+cd chat-bot
+```
 
-## 🧞 Commands
+2. **Install dependencies**
 
-All commands are run from the root of the project, from a terminal:
+```bash
+npm install
+```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+3. **Set up Ollama**
 
-## 👀 Want to learn more?
+- Make sure you have Ollama installed and running
+- Download required models:
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+```bash
+ollama pull llama3.2
+ollama pull llama3.2-vision
+```
+
+4. **Start the development server**
+
+```bash
+npm run dev
+```
+
+5. **Build for production**
+
+```bash
+npm run build
+```
+
+## 📝 Available Commands
+
+| Command                 | Action                                      |
+| :---------------------- | :------------------------------------------ |
+| `npm install`           | Installs dependencies                       |
+| `npm run dev`           | Starts local dev server at `localhost:4321` |
+| `npm run build`         | Build your production site to `./dist/`     |
+| `npm run preview`       | Preview your build locally                  |
+| `npm test`              | Run tests                                   |
+| `npm run test:ui`       | Run tests with UI                           |
+| `npm run test:coverage` | Generate test coverage report               |
+
+## 🔧 Configuration
+
+### TypeScript Configuration
+
+The project uses a strict TypeScript configuration with custom path aliases for better import organization. Check `tsconfig.json` for details.
+
+### Testing Configuration
+
+Tests are configured using Vitest with the following features:
+
+- Happy-DOM environment
+- Coverage reporting
+- Custom path aliases matching the main configuration
+
+## 🎨 Features in Detail
+
+### Chat Interface
+
+- Real-time message streaming
+- Message history management
+- Error handling and display
+- Smooth scrolling to latest messages
+
+### Image Handling
+
+- Image upload and preview
+- Base64 encoding for API compatibility
+- File type validation
+- Preview management
+
+### Theme Management
+
+- System theme detection
+- Manual theme toggle
+- Persistent theme preference
+- Smooth transitions
+
+## 📚 API Integration
+
+The project integrates with Ollama's API for both text and vision capabilities:
+
+### Text Chat
+
+- Model: `llama3.2:latest`
+- Features:
+  - Message streaming
+  - Chat history management
+  - Configurable temperature and top_p parameters
+
+### Vision Chat
+
+- Model: `llama3.2-vision:latest`
+- Features:
+  - Image processing
+  - Base64 validation
+  - Spanish language responses
+  - Error handling
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
