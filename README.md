@@ -26,23 +26,27 @@ A modern chat interface built with Astro, TypeScript, and Ollama integration. Th
 
 ```
 /
+/
 ├── src/
-│   ├── components/         # UI Components
+│   ├── components/        # Componentes de la UI
 │   │   ├── ChatForm.astro
 │   │   ├── ChatHeader.astro
 │   │   ├── ChatMessage.astro
 │   │   └── Icons/
-│   ├── handlers/          # Business Logic
+│   ├── handlers/         # Lógica de Negocio
 │   │   ├── chatHandler.ts
 │   │   ├── imageHandler.ts
 │   │   └── visionHandler.ts
 │   ├── layouts/
 │   │   └── Layout.astro
-│   ├── libs/             # Utilities and Helpers
+│   ├── libs/            # Utilidades
 │   │   ├── chatFormHandler.ts
 │   │   └── getChatMessage.ts
-│   ├── types/           # TypeScript Definitions
+│   ├── types/          # Definiciones TypeScript
 │   │   └── chat.ts
+│   ├── utils/          # Utilidades Auxiliares
+│   │   ├── imagePreview.ts
+│   │   └── uiUtils.ts
 │   └── pages/
 │       └── index.astro
 ```
