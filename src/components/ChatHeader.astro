@@ -1,0 +1,96 @@
+---
+import IconTrash from "./IconTrash.astro";
+import IconSun from "./IconSun.astro";
+import IconMoon from "./IconMoon.astro";
+---
+
+<header
+  class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 py-4 px-6"
+>
+  <div class="max-w-8xl mx-auto flex justify-between items-center">
+    <h1 class="text-xl font-semibold text-gray-800 dark:text-white">
+      Chat Bot
+    </h1>
+    <div class="flex items-center space-x-4">
+      <button
+        id="themeToggle"
+        class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+        title="Toggle theme"
+      >
+        <span class="sr-only">Toggle theme</span>
+        <!-- Sol icono para modo claro -->
+        <IconSun />
+        <!-- Luna icono para modo oscuro -->
+        <IconMoon />
+      </button>
+      <button
+        id="clearChat"
+        class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+        title="Clear chat"
+      >
+        <span class="sr-only">Clear chat</span>
+        <IconTrash />
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Theme toggle functionality
+  const themeToggle = document.getElementById("themeToggle");
+  const lightIcon = document.getElementById("lightIcon");
+  const darkIcon = document.getElementById("darkIcon");
+
+  // Check for saved theme preference, otherwise use system preference
+  const theme = (() => {
+    if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+      return localStorage.getItem("theme");
+    }
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  })();
+
+  // Initial theme setup
+  if (theme === "light") {
+    document.documentElement.classList.remove("dark");
+    lightIcon?.classList.add("hidden");
+    darkIcon?.classList.remove("hidden");
+  } else {
+    document.documentElement.classList.add("dark");
+    lightIcon?.classList.remove("hidden");
+    darkIcon?.classList.add("hidden");
+  }
+
+  localStorage.setItem("theme", theme ?? "dark");
+
+  // Theme toggle handler
+  themeToggle?.addEventListener("click", () => {
+    const isDark = document.documentElement.classList.toggle("dark");
+
+    // Toggle icons
+    if (isDark) {
+      lightIcon?.classList.remove("hidden");
+      darkIcon?.classList.add("hidden");
+      localStorage.setItem("theme", "dark");
+    } else {
+      lightIcon?.classList.add("hidden");
+      darkIcon?.classList.remove("hidden");
+      localStorage.setItem("theme", "light");
+    }
+  });
+
+  // Clear chat functionality
+  const clearButton = document.getElementById("clearChat");
+  const chatContainer = document.querySelector(".chat-messages");
+
+  clearButton?.addEventListener("click", () => {
+    if (chatContainer) {
+      const initialMessage = chatContainer.firstElementChild;
+      chatContainer.innerHTML = "";
+      if (initialMessage) {
+        chatContainer.appendChild(initialMessage);
+      }
+    }
+  });
+</script>
