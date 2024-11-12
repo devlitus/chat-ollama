@@ -66,13 +66,11 @@ export function initializeChatForm() {
     }
   };
 
-  // Initialize event listeners
   form?.addEventListener("submit", handleSubmit);
   fileInput?.addEventListener("change", (e) =>
     imageHandler.handleImageUpload(e)
   );
 
-  // Enable sending message with Enter key
   input?.addEventListener("keypress", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -80,7 +78,6 @@ export function initializeChatForm() {
     }
   });
 
-  // Return cleanup function
   return () => {
     form?.removeEventListener("submit", handleSubmit);
     fileInput?.removeEventListener("change", () => {});
