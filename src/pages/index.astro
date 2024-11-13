@@ -1,25 +1,28 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import ChatMessage from "../components/ChatMessage.astro";
-import ChatHeader from "../components/ChatHeader.astro";
-import ChatForm from "../components/ChatForm.astro";
+import Layout from "@layouts/Layout.astro";
+import ChatHeader from "@components/ChatHeader.astro";
+import ChatForm from "@components/ChatForm.astro";
+import Sidebar from "@components/sidebar.astro";
 ---
 
 <Layout title="Chat bot">
-  <div class="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
-    <ChatHeader />
+  <div class="flex h-screen bg-gray-50 dark:bg-gray-900">
+    <Sidebar />
 
-    <main class="flex-1 flex justify-center overflow-hidden mb-9">
-      <div class="w-full max-w-4xl flex flex-col">
-        <div
-          class="flex-1 overflow-y-auto scrollbar-hide p-6 pb-8 space-y-6 chat-messages"
-        >
-          <ChatMessage>¡Hola! ¿En qué puedo ayudarle hoy?</ChatMessage>
+    <div class="flex-1 flex flex-col">
+      <ChatHeader />
+
+      <main class="flex-1 flex justify-center overflow-hidden mb-9">
+        <div class="w-full max-w-4xl flex flex-col">
+          <div
+            class="flex-1 overflow-y-auto scrollbar-hide p-6 pb-8 space-y-6 chat-messages"
+          >
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
 
-    <ChatForm />
+      <ChatForm />
+    </div>
   </div>
 </Layout>
 

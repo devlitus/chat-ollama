@@ -2,6 +2,9 @@ import type { ChatMessage, ChatResponse } from "../types/chat";
 import ollama from "ollama";
 
 let chatHistory: ChatMessage[] = [];
+const notifyChatUpdate = () => {
+  document.dispatchEvent(new CustomEvent("chatUpdated"));
+};
 
 export const getChatMessage = async (
   userMessage: string,
@@ -65,6 +68,7 @@ export const getChatMessage = async (
 
 export const clearChatHistory = (): void => {
   chatHistory = [];
+  notifyChatUpdate();
 };
 
 export const getChatHistory = (): ChatMessage[] => {

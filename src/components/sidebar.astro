@@ -1,0 +1,148 @@
+---
+import IconNewChat from "./IconNewChat.astro";
+import IconClearChat from "./IconClearChat.astro";
+import IconSettings from "./IconSettings.astro";
+
+interface Props {
+  userName?: string;
+}
+
+const { userName = "Usuario" } = Astro.props;
+---
+
+<aside
+  class="hidden md:flex flex-col w-64 bg-white dark:bg-gray-800 text-gray-800 dark:text-white h-screen border-r border-gray-200 dark:border-gray-700"
+>
+  <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+    <div class="flex items-center space-x-3">
+      <div
+        class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center"
+      >
+        {userName.charAt(0).toUpperCase()}
+      </div>
+      <span class="font-medium">{userName}</span>
+    </div>
+  </div>
+
+  <div class="flex-1 overflow-y-auto p-4 space-y-2">
+    <button
+      id="newChat"
+      class="flex items-center space-x-3 w-full px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300"
+    >
+      <IconNewChat />
+      <span>Nueva conversación</span>
+    </button>
+
+    <div class="border-t border-gray-200 dark:border-gray-700 my-4"></div>
+
+    <div class="text-sm text-gray-500 dark:text-gray-400 px-3 mb-2">
+      Conversaciones recientes
+    </div>
+    <div id="chatHistory" class="space-y-1">
+      <!-- Chat history will be populated dynamically -->
+    </div>
+  </div>
+
+  <div class="p-4 border-t border-gray-200 dark:border-gray-700 space-y-2">
+    <button
+      id="clearAllChats"
+      class="flex items-center space-x-3 w-full px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-600 dark:text-gray-300"
+    >
+      <IconClearChat />
+      <span>Limpiar conversaciones</span>
+    </button>
+    <button
+      id="settings"
+      class="flex items-center space-x-3 w-full px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-600 dark:text-gray-300"
+    >
+      <IconSettings />
+      <span>Configuración</span>
+    </button>
+  </div>
+</aside>
+
+<script>
+  import { getChatHistory, clearChatHistory } from "../libs/getChatMessage";
+
+  const newChatButton = document.getElementById("newChat");
+  const clearAllButton = document.getElementById("clearAllChats");
+  const chatHistoryContainer = document.getElementById("chatHistory");
+
+  // Create a chat history item
+  const createChatHistoryItem = (title: string, id: string) => {
+    const div = document.createElement("div");
+    div.className =
+      "flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer text-gray-700 dark:text-gray-300";
+    div.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+      </svg>
+      <span class="truncate">${title}</span>
+    `;
+    div.dataset.chatId = id;
+    return div;
+  };
+
+  // Function to update chat history display
+  const updateChatHistory = () => {
+    if (!chatHistoryContainer) return;
+
+    chatHistoryContainer.innerHTML = "";
+    const history = getChatHistory();
+
+    history.forEach((chat, index) => {
+      // Use the first message as the title, or a default if empty
+      const title =
+        chat.content.slice(0, 30) + (chat.content.length > 30 ? "..." : "");
+      const item = createChatHistoryItem(
+        title || `Conversación ${index + 1}`,
+        index.toString()
+      );
+      chatHistoryContainer.appendChild(item);
+    });
+  };
+
+  // Handler for new chat button
+  newChatButton?.addEventListener("click", () => {
+    const chatMessages = document.querySelector(".chat-messages");
+    if (chatMessages) {
+      chatMessages.innerHTML =
+        '<div class="chat-message">¡Hola! ¿En qué puedo ayudarte hoy?</div>';
+      clearChatHistory();
+      updateChatHistory();
+    }
+  });
+
+  // Handler for clear all button
+  clearAllButton?.addEventListener("click", () => {
+    const chatMessages = document.querySelector(".chat-messages");
+    if (chatMessages) {
+      chatMessages.innerHTML =
+        '<div class="chat-message">¡Hola! ¿En qué puedo ayudarte hoy?</div>';
+      clearChatHistory();
+      updateChatHistory();
+    }
+  });
+
+  // Initial load of chat history
+  updateChatHistory();
+
+  // Listen for chat updates
+  document.addEventListener("chatUpdated", () => {
+    updateChatHistory();
+  });
+
+  // Settings button handler
+  const settingsButton = document.getElementById("settings");
+  settingsButton?.addEventListener("click", () => {
+    // TODO: Implement settings modal/page
+    console.log("Settings clicked");
+  });
+
+  // Clean up event listeners when component is destroyed
+  document.addEventListener("astro:unmount", () => {
+    newChatButton?.removeEventListener("click", () => {});
+    clearAllButton?.removeEventListener("click", () => {});
+    settingsButton?.removeEventListener("click", () => {});
+  });
+</script>
