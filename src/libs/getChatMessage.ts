@@ -18,15 +18,20 @@ export const getChatMessage = async (
       content: msg.content,
     }));
 
-    const response = await ollama.chat({
-      model: "llama3.2:latest",
-      messages: messages,
-      stream: true,
-      options: {
-        temperature: 0.7,
-        top_p: 0.9,
-      },
-    });
+    const response = (await Promise.race([
+      ollama.chat({
+        model: "llama3.2:latest",
+        messages: messages,
+        stream: true,
+        options: {
+          temperature: 0.7,
+          top_p: 0.9,
+        },
+      }),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Timeout")), 4000)
+      ),
+    ])) as AsyncIterable<{ message?: { content: string } }>;
 
     let fullResponse = "";
 
@@ -37,7 +42,6 @@ export const getChatMessage = async (
       }
     }
 
-    // Add complete response to chat history
     chatHistory.push({
       content: fullResponse,
       role: "assistant",
@@ -45,6 +49,7 @@ export const getChatMessage = async (
 
     return {
       message: fullResponse,
+      error: undefined,
     };
   } catch (error) {
     console.error("Error in chat completion:", error);
@@ -58,12 +63,10 @@ export const getChatMessage = async (
   }
 };
 
-// Helper function to clear chat history
 export const clearChatHistory = (): void => {
   chatHistory = [];
 };
 
-// Helper function to get current chat history
 export const getChatHistory = (): ChatMessage[] => {
   return [...chatHistory];
 };
