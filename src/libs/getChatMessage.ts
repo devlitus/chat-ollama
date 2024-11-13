@@ -1,9 +1,16 @@
+// src/libs/getChatMessage.ts
+
 import type { ChatMessage, ChatResponse } from "../types/chat";
 import ollama from "ollama";
 
 let chatHistory: ChatMessage[] = [];
+
 const notifyChatUpdate = () => {
-  document.dispatchEvent(new CustomEvent("chatUpdated"));
+  document.dispatchEvent(new CustomEvent('chatUpdated', {
+    detail: {
+      messages: [...chatHistory]
+    }
+  }));
 };
 
 export const getChatMessage = async (
@@ -50,6 +57,8 @@ export const getChatMessage = async (
       role: "assistant",
     });
 
+    notifyChatUpdate();
+
     return {
       message: fullResponse,
       error: undefined,
@@ -73,4 +82,9 @@ export const clearChatHistory = (): void => {
 
 export const getChatHistory = (): ChatMessage[] => {
   return [...chatHistory];
+};
+
+export const setChatHistory = (messages: ChatMessage[]): void => {
+  chatHistory = [...messages];
+  notifyChatUpdate();
 };
