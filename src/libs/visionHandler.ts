@@ -44,6 +44,7 @@ export const getVisionResponse = async (
 
     return {
       message: fullResponse,
+      error: undefined,
     };
   } catch (error) {
     console.error("Error in vision completion:", error);
