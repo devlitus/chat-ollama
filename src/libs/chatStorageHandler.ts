@@ -1,15 +1,25 @@
-import type { ChatMessage } from "../types/chat";
-
-export interface ChatConversation {
-  id: string;
-  title: string;
-  messages: ChatMessage[];
-  createdAt: string;
-  updatedAt: string;
-}
+import type { ChatConversation, ChatMessage } from "../types/chat";
 
 export class ChatStorageHandler {
   private readonly STORAGE_KEY = "chat_conversations";
+
+  createNewConversation(): string {
+    const conversations = this.getConversations();
+    const id = crypto.randomUUID();
+
+    const newConversation: ChatConversation = {
+      id,
+      title: "Nueva conversación",
+      messages: [],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    conversations.unshift(newConversation);
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(conversations));
+
+    return id;
+  }
 
   saveConversation(messages: ChatMessage[]): string {
     const conversations = this.getConversations();
@@ -28,6 +38,24 @@ export class ChatStorageHandler {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(conversations));
 
     return id;
+  }
+
+  updateConversationTitle(id: string, messages: ChatMessage[]) {
+    const firstUserMessage = messages.find((msg) => msg.role === "user");
+    if (!firstUserMessage) return;
+
+    const title =
+      firstUserMessage.content.length > 20
+        ? firstUserMessage.content.substring(0, 20) + "..."
+        : firstUserMessage.content;
+
+    const conversations = this.getConversations();
+    const index = conversations.findIndex((conv) => conv.id === id);
+
+    if (index !== -1) {
+      conversations[index].title = title;
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(conversations));
+    }
   }
 
   getConversations(): ChatConversation[] {

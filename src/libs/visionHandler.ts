@@ -27,7 +27,7 @@ export const getVisionResponse = async (
     }
 
     const res = await ollama.generate({
-      model: "llama3.2-vision:latest",
+      model: "llama3.2-vision",
       prompt: `${userMessage} respon siempre en castellano.`,
       images: [cleanBase64],
       stream: true,
